@@ -1,0 +1,93 @@
+<HTML>
+<Head><title>Test Kalenda Class</title>
+<meta name="Generator" content="IM - Vi IMproved 8.2"/>
+<META http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="fotang at mmuock.org"/>
+<meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="https://api.fotang.info/kalenda-min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+<style type="text/css">
+</style>
+<body>
+    <div id='example'></div>
+
+<script type="text/javascript">
+    function htmlcal(data, colnames=null, title='Example', highlight=[1], cb=null){
+            /* convert an array of month days, into an html table.
+               Optionally, indicate columns to hightlight, and a callback function for each day.*/
+            let today=new Date();
+            let thisMonth=today.getMonth()+1;
+            let thisYear=today.getFullYear();
+            let thisDay=today.getDate();
+            let tab=`<table class="month_calendar"><caption class="cal_monthname">${title}</caption>\n`;
+            if(colnames)
+                tab+='<tr>'+colnames.map((d,idx)=>'<th class='+ (highlight.includes(idx+1)?'"cal_day_highlight"':'cal_dayname')+'>'+d+'</th>').join('')+'</tr>\n';
+            tab+=data.map((row, week)=>'<tr>'+row.map((day,idx)=>{
+                    let daystr='';
+                    let month=cb?cb.day.month : null;
+                    let year=cb?cb.day.year : null;
+                    let cl='cal_day ';
+                    let td='<td>';
+                    if(highlight.includes(idx+1))
+                        cl+='cal_day_highlight';
+                    if(day<0){
+                            day*=-1;
+                            cl+=' exday';
+                            if(cb){
+                                if(week===0){ // first row
+                                    if(month==1){ month=12; year--; }
+                                    else --month;
+                                }
+                                else{ // last row
+                                    if(month==12){ month=1; year++; }
+                                    else ++month;
+                                }
+                            }
+                        }
+                    if(cb)
+                        daystr=` title="${day}/${month}/${year}" onclick="${cb.func}([${day},${month},${year}])"`;
+                    else
+                        daystr=''+day;
+                    if(day===thisDay && month==thisMonth && year==thisYear){
+                        //    console.log('today');
+                        td='<td class="cal_today">';
+                        }
+                    if(cl)
+                        return td+'<span class="'+cl+'" '+ daystr+'>'+day+'</span></td>';
+                    else
+                        return td+daystr+'</td>';
+                }).join('')+'</tr>').join('\n') + '</table>';
+            return tab;
+
+        }
+
+    const year=2023;
+    const month=12;
+    const surround=true;
+    var monthcal_html=[]; // calendar as html table
+    var cals=[[Kalenda.MMUOCK,Kalenda.DAYNAMES.mmuock,Kalenda.MONTHNAMES.mmuock], 
+            [Kalenda.WESTERN,Kalenda.DAYNAMES.en, Kalenda.MONTHNAMES.en],
+            [Kalenda.WESTERN,Kalenda.DAYNAMES.hausa, Kalenda.MONTHNAMES.hausa],
+            [Kalenda.IGBO,Kalenda.DAYNAMES.igbo, Kalenda.MONTHNAMES.en,[]]
+                                         ];
+
+    cals.forEach(c=>{
+            let k=new Kalenda(c[0]);
+            let cal=k.cal(month, year,surround);
+            if(0===cal.map.length) // no calendar
+                return;
+            monthcal_html.push(htmlcal(cal.cal,
+                    c[1], '['+month +'] '+c[2][month-1]+' '+year,
+                    c[3],
+                    {func:'window.alert', day:{year:year,month:month}}));
+        })
+    let html=monthcal_html.join('');
+    document.getElementById('example').innerHTML=html;//monthcal_html.join('');
+</script>
+</body>
+
+</HTML>
