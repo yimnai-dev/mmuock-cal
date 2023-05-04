@@ -32,7 +32,7 @@ export default function Month(props: {
       const day = startDate.clone().subtract(1, 'day')
       while(day.isBefore(endDate, 'day')){
         calendar.push(
-          Array(7)
+          Array(props.activeCulture.weekDays.length)
           .fill(0)
           .map(() => day.add(1, 'day').clone().format("DD"))
         )
@@ -41,7 +41,7 @@ export default function Month(props: {
         return calendar.map((week, index) => (
           <tr key={index + Math.random()} className="border-solid border-[1px] border-black">
             {week.map((day) => (
-              <td className="text-center border-solid border-[1px] border-black">
+              <td className="text-center border-solid border-[1px] border-black" onClick={() => console.log('Day: ',)}>
                 <span className="">
                   {isExtraDays(index, parseInt(day)) ? (
                     <span className="isDates-grey">{day}</span>
@@ -60,10 +60,10 @@ export default function Month(props: {
         <button className="text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white" onClick={() => navigate('/')}>Go Back</button>
       <h1 className="text-4xl font-semibold font-mon text-purple-800 border-solid border-b-2 border-b-purple-800 inline pb-3">Calendar for the year {props.year} </h1>
     </div>
-    <div>
+    <div className="border-solid border-2 border-purple-800">
         {months.map((month, index) => (
         <div className="container mx-auto" key={index + Math.random()}>
-            <table >
+            <table className="w-full">
                 <tbody>
                     <tr className="border-solid border-[1px] border-black">
                         <th className="" colSpan={7}>

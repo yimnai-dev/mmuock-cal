@@ -20,10 +20,10 @@ export default function CalendarOptions(props: {
 }){
   const regions = [
     'Mmuock (upper)',
-    'Mmuock (Mmockmbie)',
+    'Mmuock (Mmuockmbie)',
     'Nkwen',
     'Bangwa',
-    'Custom'
+    // 'Custom'
   ]
 
   const languages = [
@@ -59,7 +59,8 @@ export default function CalendarOptions(props: {
   }
 
   return (
-    <div className="w-screen min-h-screen bg-hero bg-center">
+    <section className='w-screen min-h-screen bg-hero bg-center'>
+      <div className="container mx-auto">
       <div className="">
         <div className="py-3 block">
           <h1 className='text-5xl font-semibold'>Calendar Generator</h1>
@@ -67,7 +68,7 @@ export default function CalendarOptions(props: {
         <div className='w-full space-x-3 space-y-3'>
           <select className='inline-block border-2 border-solid border-black' onChange={event => {
             props.setRegion(event.target.value)
-            props.setActiveCulture(CULTURAL_CALENDAR_INFO.find(culture => culture.region.toLowerCase().includes( event.target.value.toLowerCase())))
+            props.setActiveCulture(CULTURAL_CALENDAR_INFO.find(culture => event.target.value.toLowerCase().includes(culture.region.toLowerCase())))
           }}>
             {regions.map(region => (
               <option key={region}>{region}</option>
@@ -77,10 +78,10 @@ export default function CalendarOptions(props: {
             <label htmlFor="year">Year:</label>
             <input type="number" id='year' value={props.year} onChange={onYearChange} />
           </div>
-          <input type="button" value={'Show Calendar'} onClick={viewCalendar} className='inline-block rounded-lg bg-white shadow-lg px-3 py-3 font-semibold my-3'/>
+          <input type="button" value={'Show Calendar'} onClick={viewCalendar} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'/>
         </div>
         <div className="options--opener">
-        <button onClick={displayOptions} className='rounded-lg bg-white shadow-lg px-3 py-3 font-semibold my-3'>Display Options</button>
+        <button onClick={displayOptions} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'>Display Options</button>
         {
           props.viewOptions && 
       <div className='w-full'>
@@ -134,7 +135,7 @@ export default function CalendarOptions(props: {
         }
         <div className='custom-opener'>
         {props.currentLang.toLowerCase() === 'custom' && 
-          <button onClick={setCustomLang} className='rounded-lg bg-white shadow-lg px-3 py-3 font-semibold my-3'>Custom Language</button>
+          <button onClick={setCustomLang} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'>Custom Language</button>
         }
         {props.customLanguage && 
         <div className="custom">
@@ -181,7 +182,7 @@ export default function CalendarOptions(props: {
           </tbody>
         </table>
         <button>Reference dates</button><br/>
-        <button className='rounded-lg bg-white shadow-lg px-3 py-3 font-semibold my-3' onClick={viewCalendar}>show Calendar</button>
+        <button className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white' onClick={viewCalendar}>show Calendar</button>
         <div className='space-x-3 space-y-3'>
         <div className='inline-block'>
           <label htmlFor="date">First:</label>
@@ -210,13 +211,14 @@ export default function CalendarOptions(props: {
           <label>Apply</label>
         </div>
         </div>
-        <button className='rounded-lg bg-white shadow-lg px-3 py-3 font-semibold my-3' onClick={viewCalendar}>show Calendar</button>
+        <button className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white' onClick={viewCalendar}>show Calendar</button>
       </div>
         }
       </div>
       </div>
       </div>
-      <p className='border-solid border-b-2 border-b-gray-500 pb-6'>Copyright (©) 1998-{new Date().getFullYear()}</p>
+      <p className='border-solid border-b-2 border-b-gray-500 pb-6 my-6'>Copyright (©) 1998-{new Date().getFullYear()}</p>
     </div>
+    </section>
   )
 }

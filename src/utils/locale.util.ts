@@ -8,7 +8,6 @@ export function useCustomLocale(props: {
 }){
     const currentLocale = moment
     React.useEffect(() => {
-        console.log('Custom WeekMinDays: ', props.activeCulture.weekDays)
         currentLocale.updateLocale('custom', {
             months: props.activeCulture.monthNames,
             monthsShort: props.activeCulture.monthShorts,
