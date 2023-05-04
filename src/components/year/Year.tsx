@@ -5,7 +5,7 @@ export default function Year(props: {
     year: number, 
     setYear: React.Dispatch<React.SetStateAction<number>>,
     region: string,
-    activeCulture: CulturalCalendar
+    activeCulture: any
 }) {
     
     return (

@@ -1,16 +1,16 @@
 import moment from "moment";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { CULTURAL_CALENDAR_INFO } from "../../utils/data.util";
-import { CulturalCalendar } from "../../utils/types.util";
 
-const months = moment.months()
+const momentMonths = moment.months()
 
 export default function Month(props: {
     year: number,
     region: string,
-    activeCulture: CulturalCalendar,
+    activeCulture: any,
 }){
+
+  const months = props.activeCulture.monthNames || momentMonths
 
     const navigate = useNavigate()
     function isExtraDays(week: number, date: any){
@@ -32,7 +32,7 @@ export default function Month(props: {
       const day = startDate.clone().subtract(1, 'day')
       while(day.isBefore(endDate, 'day')){
         calendar.push(
-          Array(props.activeCulture.weekDays.length)
+          Array(props.activeCulture?.data.length)
           .fill(0)
           .map(() => day.add(1, 'day').clone().format("DD"))
         )
@@ -41,7 +41,7 @@ export default function Month(props: {
         return calendar.map((week, index) => (
           <tr key={index + Math.random()} className="border-solid border-[1px] border-black">
             {week.map((day) => (
-              <td className="text-center border-solid border-[1px] border-black" onClick={() => console.log('Day: ',)}>
+              <td className="text-center border-solid border-[1px] border-black" key={day + Math.random()}>
                 <span className="">
                   {isExtraDays(index, parseInt(day)) ? (
                     <span className="isDates-grey">{day}</span>
@@ -61,19 +61,19 @@ export default function Month(props: {
       <h1 className="text-4xl font-semibold font-mon text-purple-800 border-solid border-b-2 border-b-purple-800 inline pb-3">Calendar for the year {props.year} </h1>
     </div>
     <div className="border-solid border-2 border-purple-800">
-        {months.map((month, index) => (
+        {months.map((month: any, index: any) => (
         <div className="container mx-auto" key={index + Math.random()}>
             <table className="w-full">
                 <tbody>
                     <tr className="border-solid border-[1px] border-black">
-                        <th className="" colSpan={7}>
+                        <th className="" colSpan={props.activeCulture.data.length}>
                         <h1 className="month-name">{month}</h1>
                         </th>
                     </tr>
                     <tr className="border-solid border-[1px] border-black">
                         {
-                          props.activeCulture?.weekDays.map((day, index) => (
-                            <th key={index + Math.random()} className="font-bold px-3 border-solid border-[1px] border-black">{day}</th>
+                          props.activeCulture?.data.map((day: any, index: any) => (
+                            <th key={index + Math.random()} className="font-bold px-3 border-solid border-[1px] border-black">{day.toUpperCase()}</th>
                           ))
                         }
                     </tr>

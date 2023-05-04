@@ -1,8 +1,9 @@
+//@ts-nocheck
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CalendarOptions from './cal/CalendarOptions';
 import Year from './year/Year';
-import { CULTURAL_CALENDAR_INFO } from '../utils/data.util';
+import { CULTURAL_CALENDAR_INFO, kalendaRegions } from '../utils/data.util';
 
 export default function App(){
 
@@ -14,9 +15,8 @@ export default function App(){
   const [viewOptions, setOptions] = React.useState(false)
   const [customLanguage, setLanguage] = React.useState(false)
   const [currentLang, setCurrentLang] = React.useState(languages[0])
-  const [region, setRegion] = React.useState('Mmuock (upper)')
-  const [activeCulture, setActiveCulture] = React.useState(CULTURAL_CALENDAR_INFO[0])
-
+  const [region, setRegion] = React.useState(kalendaRegions[0].data)
+  const [activeCulture, setActiveCulture] = React.useState(kalendaRegions[0])
   return (
     <>
       <Routes>

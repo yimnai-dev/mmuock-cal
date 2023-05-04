@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CULTURAL_CALENDAR_INFO } from '../../utils/data.util';
+import { kalendaRegions } from '../../utils/data.util';
 import { useCustomLocale } from '../../utils/locale.util';
 import moment from 'moment';
+import useSWR from 'swr';
 
 export default function CalendarOptions(props: {
     year: number, 
@@ -18,13 +19,6 @@ export default function CalendarOptions(props: {
     activeCulture: any,
     setActiveCulture: React.Dispatch<React.SetStateAction<any>>
 }){
-  const regions = [
-    'Mmuock (upper)',
-    'Mmuock (Mmuockmbie)',
-    'Nkwen',
-    'Bangwa',
-    // 'Custom'
-  ]
 
   const languages = [
     'English', 'French', 'German', 'Custom'
@@ -68,10 +62,13 @@ export default function CalendarOptions(props: {
         <div className='w-full space-x-3 space-y-3'>
           <select className='inline-block border-2 border-solid border-black' onChange={event => {
             props.setRegion(event.target.value)
-            props.setActiveCulture(CULTURAL_CALENDAR_INFO.find(culture => event.target.value.toLowerCase().includes(culture.region.toLowerCase())))
+            const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
+            //@ts-ignore
+            //@ts-ignore
+            props.setActiveCulture(region)
           }}>
-            {regions.map(region => (
-              <option key={region}>{region}</option>
+            {kalendaRegions.map(region => (
+              <option key={region.region} value={region.region}>{region.region}</option>
             ))}
           </select>
           <div className='inline-block'>

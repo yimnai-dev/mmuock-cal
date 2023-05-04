@@ -1,91 +1,64 @@
-import { CulturalCalendar } from "./types.util"
+//@ts-nocheck
 
-export const MMUOCK_LETEH_WEEK_DAYS = [
-  'Ngangà',
-  'Mbeqgnúá',
-  'Mbeqlěq',
-  'Njœêngong',
-  'Mbeqńkœó',
-  'Njœêlekœr̄',
-  "Fa'à",
-  'Télǎng',
-]
-
-export const NKWEN_WEEK_DAYS = [
-  'Lahadi',
-  'Litinin',
-  'Talata',
-  'Laraba',
-  'Alhamis',
-  `Juma'a`,
-  'Asabar'
-]
-
-const weekDayMinMmuock = [
-  'Ngang',
-  'Mbeq',
-  'Mbeql',
-  'Njœ',
-  'Mbeqń',
-  'Njœ',
-  'Fa',
-  'Te',
-]
-
-const weekDayMinNkwen = [
-  'Lah',
-  'Lit',
-  'Tal',
-  'Lar',
-  'Alh',
-  'Jum',
-  'Asa',
-]
-
-const weekDayMinBangwa = [
-  'Ek', 'Or', 'Af', 'Nk'
-]
-
-export const BANGWA_WEEK_DAYS = [
-  'Eke', 'Orie', 'Afo', 'Nkwo'
-]
-
-export const TEMP_MONTH_SHORTS = [
+export const MONTH_SHORTS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ]
 
-export const MMUOCK_LETEH_MONTH_DAYS = [
+export const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
 ]
 
 
-export const ENGLISH_WEEK_DAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-]
 
-export const CULTURAL_CALENDAR_INFO: CulturalCalendar[] = [
-  { region: 'mmuock',
-    weekDays: MMUOCK_LETEH_WEEK_DAYS,
-    monthNames: MMUOCK_LETEH_MONTH_DAYS,
-    monthShorts: TEMP_MONTH_SHORTS,
-    weekDaysMin: weekDayMinMmuock
+
+export const kalendaRegions = [
+  {
+    region: 'mmuock',
+    data: Kalenda.DAYNAMES.mmuock,
+    monthNames: Kalenda.MONTHNAMES.mmuock,
   },
-  { region: 'nkwen',
-    weekDays: NKWEN_WEEK_DAYS,
-    monthNames: MMUOCK_LETEH_MONTH_DAYS,
-    monthShorts: TEMP_MONTH_SHORTS,
-    weekDaysMin: weekDayMinNkwen
+  {
+    region: 'mmockmbie',
+    data: Kalenda.DAYNAMES.mmockmbie,    
+    monthNames: Kalenda.MONTHNAMES.mmockmbie,
   },
-  { region: 'bangwa',
-      weekDays: BANGWA_WEEK_DAYS,
-      monthNames: MMUOCK_LETEH_MONTH_DAYS,
-      monthShorts: TEMP_MONTH_SHORTS,
-      weekDaysMin: weekDayMinBangwa
+  {
+    region: 'bangwa',
+    data: Kalenda.DAYNAMES.bangwa,    
+    monthNames: Kalenda.MONTHNAMES.bangwa,
   },
+  {
+    region: 'nkwen',
+    data: Kalenda.DAYNAMES.nkwen,    
+    monthNames: Kalenda.MONTHNAMES.nkwen,
+  },
+  {
+    region: 'en',
+    data: Kalenda.DAYNAMES.en,    
+    monthNames: Kalenda.MONTHNAMES.en,
+  },
+  {
+    region: 'fr',
+    data: Kalenda.DAYNAMES.fr,    
+    monthNames: Kalenda.MONTHNAMES.fr,
+  },
+  {
+    region: 'de',
+    data: Kalenda.DAYNAMES.de,    
+    monthNames: Kalenda.MONTHNAMES.de,
+  },
+  {
+    region: 'hausa',
+    data: Kalenda.DAYNAMES.hausa,    
+    monthNames: Kalenda.MONTHNAMES.hausa,
+  },{
+    region: 'fula',
+    data: Kalenda.DAYNAMES.fula,    
+    monthNames: Kalenda.MONTHNAMES.fula,
+  },
+  {
+    region: 'igbo',
+    data: Kalenda.DAYNAMES.igbo,    
+    monthNames: Kalenda.MONTHNAMES.igbo,
+  }
 ]
