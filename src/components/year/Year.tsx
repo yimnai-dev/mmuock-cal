@@ -10,8 +10,8 @@ export default function Year(props: {
     activeCulture: Region
 }) {
 
-    const monthPositions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    
+    const months = (Boolean(props.activeCulture.monthNames) ? props.activeCulture.monthNames : MONTH_NAMES)
+
     return (
         <div className="w-screen min-h-screen bg-hero bg-center">
             <div className="py-4 mb-6 container mx-auto flex items-center justify-between">
@@ -20,13 +20,13 @@ export default function Year(props: {
             </div>
             <div className="container mx-auto max-sm:px-3 py-6">
                 {
-                    monthPositions.map(position => (
-                        <Month key={position + Math.random()}
-                          monthName={MONTH_NAMES[position - 1]}
+                    (months.length === 0 ? MONTH_NAMES : months).map(month => (
+                        <Month key={month + Math.random()}
+                          monthName={month} 
                           activeCulture={props.activeCulture} 
                           year={props.year} 
                           //@ts-ignore
-                          calendar={new Kalenda(props.activeCulture.calOrigin || Kalenda.WESTERN).cal(position, props.year, true)}
+                          calendar={new Kalenda(props.activeCulture.calOrigin || Kalenda.WESTERN).cal(months.length === 0 ? MONTH_NAMES.indexOf(month) + 1 : months.indexOf(month) + 1, props.year, true)}
                           weekDays={props.activeCulture.weekDays}/>
                     ))
                 }
