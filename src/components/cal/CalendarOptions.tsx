@@ -1,9 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { kalendaRegions } from '../../utils/data.util';
-import { useCustomLocale } from '../../utils/locale.util';
-import moment from 'moment';
-import useSWR from 'swr';
 import { Region } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
@@ -60,7 +57,6 @@ export default function CalendarOptions(props: {
           <select className='inline-block border-2 border-solid border-purple-800 px-2 h-10 rounded-md outline-none hover:outline-none' onChange={event => {
             props.setRegion(event.target.value)
             const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
-            //@ts-ignore
             //@ts-ignore
             props.setActiveCulture(region)
           }}>

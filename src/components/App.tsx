@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import CalendarOptions from './cal/CalendarOptions';
 import Year from './year/Year';
 import { kalendaRegions } from '../utils/data.util';
-import { useCustomLocale } from '../utils/locale.util';
 
 export default function App(){
 
@@ -19,7 +18,6 @@ export default function App(){
   const [region, setRegion] = React.useState(kalendaRegions[0].weekDays[0])
   const [activeCulture, setActiveCulture] = React.useState(kalendaRegions[0])
 
-  const customMoment = useCustomLocale({region: region, activeCulture: activeCulture})
   return (
     <>
       <Routes>
