@@ -1,25 +1,25 @@
-//@ts-nocheck
 import moment from "moment";
 import React from "react";
-import { MONTH_NAMES, MONTH_SHORTS } from "./data.util";
+import { Region } from "./types.util";
 export function useCustomLocale(props: {
     region: string;
-    activeCulture: any;
+    activeCulture: Region;
 }){
     const currentLocale = moment
+    console.log(props.activeCulture.weekDays)
     React.useEffect(() => {
-        console.log('Month names: ', Kalenda.MONTHNAMES)
         currentLocale.updateLocale('custom', {
             months: props.activeCulture.monthNames,
             monthsShort: props.activeCulture.monthNames,
-            weekdays: props.activeCulture.data.data,
-            weekdaysShort: props.activeCulture.data,
-            weekdaysMin: props.activeCulture.data,
+            weekdays: props.activeCulture.weekDays,
+            weekdaysShort: props.activeCulture.weekDays,
+            weekdaysMin: props.activeCulture.weekDays,
             week: {
                 dow: 0,
-                doy: 1,
+                doy: 4,
             },
-        }) 
+        }
+    ) 
     },  [props.region, props.activeCulture])
     return currentLocale
 }

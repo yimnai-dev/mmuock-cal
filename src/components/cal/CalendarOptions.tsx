@@ -4,6 +4,7 @@ import { kalendaRegions } from '../../utils/data.util';
 import { useCustomLocale } from '../../utils/locale.util';
 import moment from 'moment';
 import useSWR from 'swr';
+import { Region } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
     year: number, 
@@ -16,17 +17,13 @@ export default function CalendarOptions(props: {
     setCurrentLang: React.Dispatch<React.SetStateAction<string>>,
     region: string,
     setRegion: React.Dispatch<React.SetStateAction<string>>,
-    activeCulture: any,
-    setActiveCulture: React.Dispatch<React.SetStateAction<any>>
+    activeCulture: Region,
+    setActiveCulture: React.Dispatch<React.SetStateAction<Region>>
 }){
 
   const languages = [
     'English', 'French', 'German', 'Custom'
   ]
-
-  const myCustomLocale = useCustomLocale({region: props.region, activeCulture: props.activeCulture})
-  myCustomLocale.locale('custom')
-
 
   const navigate = useNavigate();
 
@@ -59,8 +56,8 @@ export default function CalendarOptions(props: {
         <div className="py-3 block">
           <h1 className='text-5xl font-semibold'>Calendar Generator</h1>
         </div>
-        <div className='w-full space-x-3 space-y-3'>
-          <select className='inline-block border-2 border-solid border-black' onChange={event => {
+        <div className='w-full space-x-3 space-y-3 py-3'>
+          <select className='inline-block border-2 border-solid border-purple-800 px-2 h-10 rounded-md outline-none hover:outline-none' onChange={event => {
             props.setRegion(event.target.value)
             const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
             //@ts-ignore
@@ -73,7 +70,7 @@ export default function CalendarOptions(props: {
           </select>
           <div className='inline-block'>
             <label htmlFor="year">Year:</label>
-            <input type="number" id='year' value={props.year} onChange={onYearChange} />
+            <input type="number" className='border-2 border-solid border-purple-800 px-2 rounded-md h-10 outline-none hover:outline-none' id='year' value={props.year} onChange={onYearChange} />
           </div>
           <input type="button" value={'Show Calendar'} onClick={viewCalendar} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'/>
         </div>

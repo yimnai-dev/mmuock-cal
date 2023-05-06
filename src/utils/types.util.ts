@@ -1,9 +1,5 @@
-export type CulturalCalendar = {
-    region: Region;
+export type Region = {
+    region: string;
     weekDays: string[];
     monthNames: string[];
-    monthShorts: string[];
-    weekDaysMin: string[];
 }
-
-export type Region = 'mmuock' | 'nkwen' | 'bangwa'

@@ -1,9 +1,9 @@
-//@ts-nocheck
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CalendarOptions from './cal/CalendarOptions';
 import Year from './year/Year';
-import { CULTURAL_CALENDAR_INFO, kalendaRegions } from '../utils/data.util';
+import { kalendaRegions } from '../utils/data.util';
+import { useCustomLocale } from '../utils/locale.util';
 
 export default function App(){
 
@@ -11,12 +11,15 @@ export default function App(){
     'English', 'French', 'German', 'Custom'
   ]
 
-  const [year, setYear] = React.useState(2022);
+  
+  const [year, setYear] = React.useState(new Date().getFullYear());
   const [viewOptions, setOptions] = React.useState(false)
   const [customLanguage, setLanguage] = React.useState(false)
   const [currentLang, setCurrentLang] = React.useState(languages[0])
-  const [region, setRegion] = React.useState(kalendaRegions[0].data)
+  const [region, setRegion] = React.useState(kalendaRegions[0].weekDays[0])
   const [activeCulture, setActiveCulture] = React.useState(kalendaRegions[0])
+
+  const customMoment = useCustomLocale({region: region, activeCulture: activeCulture})
   return (
     <>
       <Routes>
