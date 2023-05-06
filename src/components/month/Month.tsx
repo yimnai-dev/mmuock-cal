@@ -14,8 +14,6 @@ export default function Month(props: {
 
   const id = React.useId()
 
-  console.log(props.calendar)
-
     return <div>
     <h1 className="text-2xl font-mono font-semibold text-purple-800">{props.monthName}</h1>
     <table className="border-solid border-2 border-purple-800 container mx-auto max-sm:px-3">
