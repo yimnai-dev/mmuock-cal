@@ -27,13 +27,10 @@ export default function Month(props: {
   const bilingualKalenda = new Kalenda(props.activeCulture.calOrigin).cal(props.monthIndex + 1, props.year, true)
   //@ts-ignore
   bilingualKalenda.bilingual(Kalenda.WESTERN)
-  // console.log(Kalenda.MONTHNAMES['de'])
-  console.log('hh: ',  secondaryMonthNames[props.activeCulture.monthNames.indexOf(props.monthName)])
-
-    return <div>
-    <h1 className="text-2xl font-mono font-semibold text-purple-800">{props.monthName + '/' +  (secondaryMonthNames[ props.activeCulture.monthNames.indexOf(props.monthName)] || '')}</h1>
+    return <div className="py-3">
+    <h1 className="text-xl font-mono font-light text-purple-500">{props.monthName}<span className="italic text-black">{(secondaryMonthNames.length > 0 ? `/${secondaryMonthNames[props.monthIndex]}` : '')}</span></h1>
     <table className="border-solid border-2 border-purple-800 container mx-auto max-sm:px-3">
-         <thead className="text-center font-bold text-xl">
+         <thead className="text-center font-bold text-sm">
           <tr className="">
             {
               props.weekDays.map((val) => (
