@@ -7,11 +7,12 @@ export default function Year(props: {
     year: number, 
     setYear: React.Dispatch<React.SetStateAction<number>>,
     region: string,
-    activeCulture: Region
+    activeCulture: Region,
+    isBilingual: boolean,
+    language: string,
 }) {
 
-    const months = (Boolean(props.activeCulture.monthNames) ? props.activeCulture.monthNames : MONTH_NAMES)
-
+    const months = Boolean(props.activeCulture.monthNames) ? props.activeCulture.monthNames : MONTH_NAMES
     return (
         <div className="w-screen min-h-screen bg-hero bg-center">
             <div className="py-4 mb-6 container mx-auto flex items-center justify-between">
@@ -20,9 +21,12 @@ export default function Year(props: {
             </div>
             <div className="container mx-auto max-sm:px-3 py-6">
                 {
-                    (months.length === 0 ? MONTH_NAMES : months).map(month => (
+                    (months.length === 0 ? MONTH_NAMES : months).map((month, index) => (
                         <Month key={month + Math.random()}
-                          monthName={month} 
+                          isBilingual={props.isBilingual}
+                          language={props.language}
+                          monthName={month}
+                          monthIndex={index} 
                           activeCulture={props.activeCulture} 
                           year={props.year} 
                           //@ts-ignore

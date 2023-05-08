@@ -17,6 +17,9 @@ export default function App(){
   const [currentLang, setCurrentLang] = React.useState(languages[0])
   const [region, setRegion] = React.useState(kalendaRegions[0].weekDays[0])
   const [activeCulture, setActiveCulture] = React.useState(kalendaRegions[0])
+  const [isBilingual, setIsBilingual] = React.useState(false)
+  const [swap, setSwap] = React.useState(false)
+  // const [bilingual]
 
   return (
     <>
@@ -34,8 +37,12 @@ export default function App(){
           setRegion={setRegion}
           activeCulture={activeCulture}
           setActiveCulture={setActiveCulture}
+          isBilingual={isBilingual}
+          setIsBilingual={setIsBilingual}
+          swap={swap}
+          setSwap={setSwap}
           />}/>
-        <Route path='/calendar' element={<Year year={year} region={region} setYear={setYear} activeCulture={activeCulture}/>} />
+        <Route path='/calendar' element={<Year isBilingual={isBilingual} language={currentLang} year={year} region={region} setYear={setYear} activeCulture={activeCulture}/>} />
       </Routes>
     </>
   )

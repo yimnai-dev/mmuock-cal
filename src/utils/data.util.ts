@@ -10,22 +10,22 @@ export const MONTH_NAMES = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
 ]
 
-
+export const regions = ['Mmuock (upper)', 'Mmuock (Mmockmbie)', 'Nkwen', 'Bangwa', 'Custom']
 
 
 export const kalendaRegions: Region[] = [
   {
-    region: 'mmuock',
+    region: 'Mmuock (upper)',
     weekDays: Kalenda.DAYNAMES.mmuock,
     monthNames: Kalenda.MONTHNAMES.mmuock,
     calOrigin: Kalenda.MMUOCK,
   },
-  // {
-  //   region: 'mmockmbie',
-  //   weekDays: Kalenda.DAYNAMES.mmockmbie,    
-  //   monthNames: Kalenda.MONTHNAMES.mmockmbie,
-  //   calOrigin: Kalenda.MMOCKMBIE
-  // },
+  {
+    region: 'Mmuock (Mmockmbie)',
+    weekDays: Kalenda.DAYNAMES.mmockmbie,    
+    monthNames: Kalenda.MONTHNAMES.mmockmbie ? Kalenda.MONTHNAMES.mmockmbie : MONTH_NAMES,
+    calOrigin: Kalenda.MMOCKMBIE || Kalenda.MMUOCK,
+  },
   {
     region: 'bangwa',
     weekDays: Kalenda.DAYNAMES.bangwa,    
@@ -74,3 +74,19 @@ export const kalendaRegions: Region[] = [
     calOrigin: Kalenda.IGBO
   }
 ]
+
+export const bilingualLanguages: { [key: string]: { dayNames: string[], monthNames: string[] } } = {
+    english: {
+      dayNames: Kalenda.DAYNAMES.en,
+      monthNames: Kalenda.MONTHNAMES.en
+    },
+    french: {
+      dayNames: Kalenda.DAYNAMES.fr,
+      monthNames: Kalenda.MONTHNAMES.fr
+    },
+    german: {
+      dayNames: Kalenda.DAYNAMES.de,
+      monthNames: Kalenda.MONTHNAMES.de
+    }
+}
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { kalendaRegions } from '../../utils/data.util';
+import { kalendaRegions, regions } from '../../utils/data.util';
 import { Region } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
@@ -15,7 +15,11 @@ export default function CalendarOptions(props: {
     region: string,
     setRegion: React.Dispatch<React.SetStateAction<string>>,
     activeCulture: Region,
-    setActiveCulture: React.Dispatch<React.SetStateAction<Region>>
+    setActiveCulture: React.Dispatch<React.SetStateAction<Region>>,
+    isBilingual: boolean,
+    setIsBilingual: React.Dispatch<React.SetStateAction<boolean>>,
+    swap: boolean,
+    setSwap: React.Dispatch<React.SetStateAction<boolean>>,
 }){
 
   const languages = [
@@ -60,8 +64,8 @@ export default function CalendarOptions(props: {
             //@ts-ignore
             props.setActiveCulture(region)
           }}>
-            {kalendaRegions.map(region => (
-              <option key={region.region} value={region.region}>{region.region}</option>
+            {regions.map(region => (
+              <option key={region} value={region}>{region}</option>
             ))}
           </select>
           <div className='inline-block'>
@@ -77,18 +81,21 @@ export default function CalendarOptions(props: {
       <div className='w-full'>
         <div className="w-full space-x-5 space-y-3">
           <span className='inline-block'>
-            <input type="checkbox" id='bilingual'/>
+            <input type="checkbox" id='bilingual' onChange={event => props.setIsBilingual(event.target.checked)}/>
             <label htmlFor="bilingual">Bilingual</label>
           </span>
-          <span className='inline-block'>
+          {
+            props.isBilingual &&
+            <span className='inline-block'>
             <select onChange={onLangChange}>
                 {languages.map(language => (
-                  <option key={language}>{language}</option>
+                  <option key={language} value={language}>{language}</option>
                 ))}
             </select>
           </span>
+          }
           <span className='inline-block'>
-            <input type="checkbox" id='swap'/>
+            <input type="checkbox" id='swap' onChange={event => props.setSwap(event.target.checked)}/>
             <label htmlFor="swap">Swap</label>
           </span>
       </div>
