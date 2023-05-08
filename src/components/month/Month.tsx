@@ -28,9 +28,10 @@ export default function Month(props: {
   //@ts-ignore
   bilingualKalenda.bilingual(Kalenda.WESTERN)
   // console.log(Kalenda.MONTHNAMES['de'])
+  console.log('hh: ',  secondaryMonthNames[props.activeCulture.monthNames.indexOf(props.monthName)])
 
     return <div>
-    <h1 className="text-2xl font-mono font-semibold text-purple-800">{props.monthName + '/' + secondaryMonthNames[ props.activeCulture.monthNames.indexOf(props.monthName) + 1]}</h1>
+    <h1 className="text-2xl font-mono font-semibold text-purple-800">{props.monthName + '/' +  (secondaryMonthNames[ props.activeCulture.monthNames.indexOf(props.monthName)] || '')}</h1>
     <table className="border-solid border-2 border-purple-800 container mx-auto max-sm:px-3">
          <thead className="text-center font-bold text-xl">
           <tr className="">
