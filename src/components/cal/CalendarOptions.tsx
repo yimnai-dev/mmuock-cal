@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bilingualLanguages, kalendaRegions, regions } from '../../utils/data.util';
-import { Region } from '../../utils/types.util';
+import { Region, SecondaryCalendar } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
     year: number, 
@@ -22,6 +22,8 @@ export default function CalendarOptions(props: {
     setSwap: React.Dispatch<React.SetStateAction<boolean>>,
     secondaryCalendar: any,
     setSecondaryCalendar: React.Dispatch<React.SetStateAction<any>>,
+    customKalendar: SecondaryCalendar,
+    setCustomKalendar: React.Dispatch<React.SetStateAction<SecondaryCalendar>>
 }){
 
   const languages = [
@@ -30,7 +32,14 @@ export default function CalendarOptions(props: {
 
   const navigate = useNavigate();
 
-  const date = new Date()
+  const [customDays, setCustomDays] = React.useState<string>("Sunday Monday Tuesday Wednesday Thursday Friday Saturday")
+  const [customMonths, setCustomMonths] = React.useState<string>("January February March April May June July August September October November December")
+
+  React.useEffect(() => {
+    if(props.customLanguage){
+      props.setCustomKalendar({dayNames: customDays.split(" "), monthNames: customMonths.split(" ")})
+    }
+  }, [props.customLanguage, customDays, customMonths])
 
   function viewCalendar(){
     navigate('/calendar')
@@ -50,6 +59,9 @@ export default function CalendarOptions(props: {
 
   function onLangChange(e: any){
     props.setCurrentLang(e.target.value)
+    if(e.target.value === 'Custom'){
+
+    }
   }
 
   return (
@@ -65,6 +77,7 @@ export default function CalendarOptions(props: {
             const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
             //@ts-ignore
             props.setActiveCulture(region)
+            event.target.value === 'Custom' ? props.setOptions(true) : props.setOptions(false)
           }}>
             {regions.map(region => (
               <option key={region} value={region}>{region}</option>
@@ -152,34 +165,14 @@ export default function CalendarOptions(props: {
               <td>12 month names</td>
             </tr>
             <tr className=''>
-              <td>
-                <div className='h-72 bg-white border-solid border-2 border-gray-300' contentEditable={true}></div>
+              <td className='border-2 border-solid border-black'>
+                <textarea name='languageName' cols={20} rows={12}></textarea>
               </td>
-              <td>
-                <div className='h-72 border-2 border-solid border-gray-300 bg-white' contentEditable={true}>
-                  Sunday<br/>
-                  Monday<br/>
-                  Tuesday<br/>
-                  Wednesday<br/>
-                  Thursday<br/>
-                  Friday<br/>
-                  Saturday<br/>
-                </div>
+              <td className='border-2 border-solid border-black'>
+                <textarea wrap='hard' onChange={event => setCustomDays((prev) => {return event.target.value})} value={customDays} name='customWeekNames' cols={20} rows={12}></textarea>
               </td>
-              <td>
-                <div contentEditable={true} className='border-2 border-solid border-gray bg-white h-72'>
-                  January<br/>
-                  February<br/>
-                  March<br/>
-                  April<br/>
-                  May<br/>
-                  June<br/>
-                  July<br/>
-                  September<br/>
-                  October<br/>
-                  November<br/>
-                  December<br/>
-                </div>
+              <td className='border-2 border-solid border-black'>
+                <textarea wrap='hard' onChange={event => setCustomMonths((prev) => {return event.target.value})} name='customMonthNames' value={customMonths} cols={20} rows={12}></textarea>
               </td>
             </tr>
           </tbody>

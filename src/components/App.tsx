@@ -22,13 +22,20 @@ export default function App(){
   const [isBilingual, setIsBilingual] = React.useState(false)
   const [swap, setSwap] = React.useState(false)
   const [secondaryCalendar, setSecondaryCalendar] = React.useState<SecondaryCalendar>({dayNames: [], monthNames: []})
+  const [customKalendar, setCustomKalendar] = React.useState<SecondaryCalendar>({dayNames: [], monthNames: []})
 
   React.useEffect(() => {
     const tempSecondary = activeCulture
     const newSecondary = {
-      dayNames: isBilingual ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].dayNames : [],
-      monthNames: isBilingual ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].monthNames : []
+      dayNames: isBilingual && currentLang !== 'Custom' ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].dayNames : [],
+      monthNames: isBilingual && currentLang !== 'Custom' ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].monthNames : []
     }
+
+    if(customKalendar.dayNames.length > 0 && customKalendar.monthNames.length > 0){
+      newSecondary.dayNames = customKalendar.dayNames
+      newSecondary.monthNames = customKalendar.monthNames
+    }
+
 
     const some = isBilingual && (swap && {dayNames: tempSecondary.weekDays, monthNames: tempSecondary.monthNames} )
 
@@ -50,7 +57,7 @@ export default function App(){
         return newSecondary
       })
     }
-  }, [isBilingual, currentLang, swap])
+  }, [isBilingual, currentLang, swap, customKalendar])
 
   return (
     <>
@@ -74,6 +81,8 @@ export default function App(){
           setSwap={setSwap}
           secondaryCalendar={secondaryCalendar}
           setSecondaryCalendar={setSecondaryCalendar}
+          customKalendar={customKalendar}
+          setCustomKalendar={setCustomKalendar}
           />}/>
         <Route path='/calendar' 
           element={<Year 
