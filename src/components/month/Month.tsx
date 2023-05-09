@@ -1,7 +1,7 @@
 import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Region } from "../../utils/types.util";
+import { Region, SecondaryCalendar } from "../../utils/types.util";
 import Day from "../day/Day";
 import { MONTH_NAMES, bilingualLanguages } from "../../utils/data.util";
 
@@ -14,14 +14,14 @@ export default function Month(props: {
     isBilingual: boolean,
     language: string,
     monthIndex: number,
+    secondaryCalendar: SecondaryCalendar,
+    setSecondaryCalendar: React.Dispatch<React.SetStateAction<SecondaryCalendar>>
 }){
-
-
-
   const id = React.useId()
-  const secondaryDayNames = (props.isBilingual && bilingualLanguages[props.language.toLowerCase()].dayNames) || []
-  const secondaryMonthNames = (props.isBilingual && bilingualLanguages[props.language.toLowerCase()].monthNames) || []
-
+  // const secondaryDayNames = (props.isBilingual && bilingualLanguages[props.language.toLowerCase()].dayNames) || []
+  // const secondaryMonthNames = (props.isBilingual && bilingualLanguages[props.language.toLowerCase()].monthNames) || []
+  const secondaryDayNames = props.secondaryCalendar.dayNames
+  const secondaryMonthNames = props.secondaryCalendar.monthNames
 
   //@ts-ignore
   const bilingualKalenda = new Kalenda(props.activeCulture.calOrigin).cal(props.monthIndex + 1, props.year, true)
@@ -45,10 +45,7 @@ export default function Month(props: {
                 <tr key={weekIndex + Math.random()} className="border-[1px] border-solid border-black">
                   {week.map((day: number, dayIndex: number) => (
                     <Day secondaryLang={secondaryDayNames.length > 0 ? (bilingualKalenda.cal2[weekIndex][dayIndex] !== null ? secondaryDayNames[bilingualKalenda.cal2[weekIndex][dayIndex]] : '') : ''}  
-                      isBilingual={props.isBilingual} language={props.language} 
-                      weekDays={props.weekDays} year={props.year} 
-                      month={props.activeCulture.monthNames.indexOf(props.monthName) + 1}
-                      id={id} key={day + Math.random()} day={day}  />
+                      key={day + Math.random()} day={day}  />
                   ))}
                 </tr>
               ))

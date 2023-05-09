@@ -1,12 +1,6 @@
 import { bilingualLanguages } from "../../utils/data.util"
 export default function Day(props: {
     day: number,
-    month: number,
-    year: number,
-    id: string,
-    weekDays: string[],
-    isBilingual: boolean,
-    language: string,
     secondaryLang: string,
 }){
 

@@ -2,7 +2,9 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CalendarOptions from './cal/CalendarOptions';
 import Year from './year/Year';
-import { kalendaRegions } from '../utils/data.util';
+import { bilingualLanguages, kalendaRegions } from '../utils/data.util';
+import { Region, SecondaryCalendar } from '../utils/types.util';
+import { props } from '../descriptor/property';
 
 export default function App(){
 
@@ -19,7 +21,36 @@ export default function App(){
   const [activeCulture, setActiveCulture] = React.useState(kalendaRegions[0])
   const [isBilingual, setIsBilingual] = React.useState(false)
   const [swap, setSwap] = React.useState(false)
-  // const [bilingual]
+  const [secondaryCalendar, setSecondaryCalendar] = React.useState<SecondaryCalendar>({dayNames: [], monthNames: []})
+
+  React.useEffect(() => {
+    const tempSecondary = activeCulture
+    const newSecondary = {
+      dayNames: isBilingual ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].dayNames : [],
+      monthNames: isBilingual ? bilingualLanguages[currentLang.toLowerCase() || languages[0].toLowerCase()].monthNames : []
+    }
+
+    const some = isBilingual && (swap && {dayNames: tempSecondary.weekDays, monthNames: tempSecondary.monthNames} )
+
+    if(some){
+      setSecondaryCalendar((prev) => {
+        return some
+      })
+      setActiveCulture((prevCulture: Region) => {
+        return {
+          region: prevCulture.region,
+          calOrigin: prevCulture.calOrigin,
+          weekDays: newSecondary.dayNames,
+          monthNames: newSecondary.monthNames
+        }
+      })
+    }
+    else {
+      setSecondaryCalendar((prev) => {
+        return newSecondary
+      })
+    }
+  }, [isBilingual, currentLang, swap])
 
   return (
     <>
@@ -41,8 +72,21 @@ export default function App(){
           setIsBilingual={setIsBilingual}
           swap={swap}
           setSwap={setSwap}
+          secondaryCalendar={secondaryCalendar}
+          setSecondaryCalendar={setSecondaryCalendar}
           />}/>
-        <Route path='/calendar' element={<Year isBilingual={isBilingual} language={currentLang} year={year} region={region} setYear={setYear} activeCulture={activeCulture}/>} />
+        <Route path='/calendar' 
+          element={<Year 
+            year={year} 
+            setYear={setYear}
+            region={region}
+            activeCulture={activeCulture}
+            isBilingual={isBilingual}
+            language={currentLang}
+            secondaryCalendar={secondaryCalendar}
+            setSecondaryCalendar={setSecondaryCalendar}
+            />}
+          />
       </Routes>
     </>
   )

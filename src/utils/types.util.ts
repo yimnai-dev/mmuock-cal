@@ -4,3 +4,8 @@ export type Region = {
     monthNames: string[];
     calOrigin: any;
 }
+
+export type SecondaryCalendar = {
+    dayNames: string[];
+    monthNames: string[];
+}

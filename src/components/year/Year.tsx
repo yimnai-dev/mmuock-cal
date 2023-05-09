@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Region } from "../../utils/types.util";
+import { Region, SecondaryCalendar } from "../../utils/types.util";
 import Month from "../month/Month";
 import { MONTH_NAMES } from "../../utils/data.util";
+import React from "react";
 
 export default function Year(props: {
     year: number, 
@@ -10,6 +11,8 @@ export default function Year(props: {
     activeCulture: Region,
     isBilingual: boolean,
     language: string,
+    secondaryCalendar: SecondaryCalendar,
+    setSecondaryCalendar: React.Dispatch<React.SetStateAction<SecondaryCalendar>>
 }) {
 
     const months = Boolean(props.activeCulture.monthNames) ? props.activeCulture.monthNames : MONTH_NAMES
@@ -31,7 +34,9 @@ export default function Year(props: {
                           year={props.year} 
                           //@ts-ignore
                           calendar={new Kalenda(props.activeCulture.calOrigin || Kalenda.WESTERN).cal(months.length === 0 ? MONTH_NAMES.indexOf(month) + 1 : months.indexOf(month) + 1, props.year, true)}
-                          weekDays={props.activeCulture.weekDays}/>
+                          weekDays={props.activeCulture.weekDays}
+                          secondaryCalendar={props.secondaryCalendar}
+                          setSecondaryCalendar={props.setSecondaryCalendar}/>
                     ))
                 }
             </div>
