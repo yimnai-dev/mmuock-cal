@@ -1,29 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { bilingualLanguages, kalendaRegions, regions } from '../../utils/data.util';
-import { Region, SecondaryCalendar } from '../../utils/types.util';
+import { KalendaOptions, Region, SecondaryCalendar } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
-    year: number, 
-    setYear: React.Dispatch<React.SetStateAction<number>>,
-    viewOptions: boolean,
-    setOptions: React.Dispatch<React.SetStateAction<boolean>>,
-    customLanguage: boolean,
-    setLanguage: React.Dispatch<React.SetStateAction<boolean>>,
-    currentLang: string,
-    setCurrentLang: React.Dispatch<React.SetStateAction<string>>,
-    region: string,
-    setRegion: React.Dispatch<React.SetStateAction<string>>,
-    activeCulture: Region,
-    setActiveCulture: React.Dispatch<React.SetStateAction<Region>>,
-    isBilingual: boolean,
-    setIsBilingual: React.Dispatch<React.SetStateAction<boolean>>,
-    swap: boolean,
-    setSwap: React.Dispatch<React.SetStateAction<boolean>>,
-    secondaryCalendar: any,
-    setSecondaryCalendar: React.Dispatch<React.SetStateAction<any>>,
-    customKalendar: SecondaryCalendar,
-    setCustomKalendar: React.Dispatch<React.SetStateAction<SecondaryCalendar>>
+    kalendaOptions: KalendaOptions,
+    setKalendaOptions: React.Dispatch<React.SetStateAction<KalendaOptions>>,
 }){
 
   const languages = [
@@ -36,32 +18,47 @@ export default function CalendarOptions(props: {
   const [customMonths, setCustomMonths] = React.useState<string>("January February March April May June July August September October November December")
 
   React.useEffect(() => {
-    if(props.customLanguage){
-      props.setCustomKalendar({dayNames: customDays.split(" "), monthNames: customMonths.split(" ")})
+    if(props.kalendaOptions.customLanguage){
+      props.setKalendaOptions((prev) => {
+        return {
+          ...prev,
+          customKalendar: {dayNames: customDays.split(" "), monthNames: customMonths.split(" ")}
+        }
+      })
     }
-  }, [props.customLanguage, customDays, customMonths])
+    console.log('Custom Kalenda: ', props.kalendaOptions.customKalendar)
+  }, [props.kalendaOptions.customLanguage, customDays, customMonths])
 
   function viewCalendar(){
     navigate('/calendar')
   }
 
   function onYearChange(event: any){
-    props.setYear(parseInt(event.target.value))
+    props.setKalendaOptions({
+      ...props.kalendaOptions,
+      year: parseInt(event.target.value)
+    })
 
   }
 
   function displayOptions(){
-    props.setOptions(!props.viewOptions)
+    props.setKalendaOptions({
+      ...props.kalendaOptions,
+      viewOptions: !props.kalendaOptions.viewOptions
+    })
   }
   function setCustomLang(){
-    props.setLanguage(!props.customLanguage)
+    props.setKalendaOptions({
+      ...props.kalendaOptions,
+      customLanguage: !props.kalendaOptions.customLanguage
+    })
   }
 
   function onLangChange(e: any){
-    props.setCurrentLang(e.target.value)
-    if(e.target.value === 'Custom'){
-
-    }
+    props.setKalendaOptions({
+      ...props.kalendaOptions,
+      currentLang: e.target.value
+    })
   }
 
   return (
@@ -73,36 +70,44 @@ export default function CalendarOptions(props: {
         </div>
         <div className='w-full space-x-3 space-y-3 py-3'>
           <select className='inline-block border-2 border-solid border-purple-800 px-2 h-10 rounded-md outline-none hover:outline-none' onChange={event => {
-            props.setRegion(event.target.value)
+            props.setKalendaOptions({
+              ...props.kalendaOptions,
+              region: event.target.value,
+            })
             const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
-            //@ts-ignore
-            props.setActiveCulture(region)
-            event.target.value === 'Custom' ? props.setOptions(true) : props.setOptions(false)
+            props.setKalendaOptions({
+              ...props.kalendaOptions,
+              activeCulture: region as Region,
+            })
+            event.target.value === 'Custom' ? props.setKalendaOptions({ ...props.kalendaOptions, viewOptions: true }) : props.setKalendaOptions({ ...props.kalendaOptions, viewOptions: false })
           }}>
             {regions.map(region => (
               <option key={region} value={region}>{region}</option>
-            ))}
+            ))} 
           </select>
           <div className='inline-block'>
             <label htmlFor="year">Year:</label>
-            <input type="number" className='border-2 border-solid border-purple-800 px-2 rounded-md h-10 outline-none hover:outline-none' id='year' value={props.year} onChange={onYearChange} />
+            <input type="number" className='border-2 border-solid border-purple-800 px-2 rounded-md h-10 outline-none hover:outline-none' id='year' value={props.kalendaOptions.year} onChange={onYearChange} />
           </div>
           <input type="button" value={'Show Calendar'} onClick={viewCalendar} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'/>
         </div>
         <div className="options--opener">
         <button onClick={displayOptions} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'>Display Options</button>
         {
-          props.viewOptions && 
+          props.kalendaOptions.viewOptions && 
       <div className='w-full'>
         <div className="w-full space-x-5 space-y-3">
           <span className='inline-block'>
             <input type="checkbox" id='bilingual' onChange={event => {
-              props.setIsBilingual(event.target.checked)
+              props.setKalendaOptions({
+                ...props.kalendaOptions,
+                isBilingual: event.target.checked
+              })
               }}/>
             <label htmlFor="bilingual">Bilingual</label>
           </span>
           {
-            props.isBilingual &&
+            props.kalendaOptions.isBilingual &&
             <span className='inline-block'>
             <select onChange={onLangChange}>
                 {languages.map(language => (
@@ -113,7 +118,10 @@ export default function CalendarOptions(props: {
           }
           <span className='inline-block'>
             <input type="checkbox" id='swap' onChange={event => {
-              props.setSwap(event.target.checked)
+              props.setKalendaOptions({
+                ...props.kalendaOptions,
+                swap: event.target.checked
+              })
             }}/>
             <label htmlFor="swap">Swap</label>
           </span>
@@ -150,11 +158,11 @@ export default function CalendarOptions(props: {
     </div>
         }
         <div className='custom-opener'>
-        {props.currentLang.toLowerCase() === 'custom' && 
+        {props.kalendaOptions.currentLang.toLowerCase() === 'custom' && 
           <button onClick={setCustomLang} className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white'>Custom Language</button>
         }
-        {props.customLanguage && 
-        <div className="custom">
+    {props.kalendaOptions.customLanguage && 
+      <div className="custom">
         <h1 className='font-bold'>Day and month names</h1>
         <span className='italic text-sm'>Blank lines and comments are ignored; comments are those lines which commence with a semicolon (;).</span>
         <table>
@@ -169,10 +177,10 @@ export default function CalendarOptions(props: {
                 <textarea name='languageName' cols={20} rows={12}></textarea>
               </td>
               <td className='border-2 border-solid border-black'>
-                <textarea wrap='hard' onChange={event => setCustomDays((prev) => {return event.target.value})} value={customDays} name='customWeekNames' cols={20} rows={12}></textarea>
+                <textarea wrap='hard' onChange={event => setCustomDays(event.target.value)} value={customDays} name='customWeekNames' cols={20} rows={12}></textarea>
               </td>
               <td className='border-2 border-solid border-black'>
-                <textarea wrap='hard' onChange={event => setCustomMonths((prev) => {return event.target.value})} name='customMonthNames' value={customMonths} cols={20} rows={12}></textarea>
+                <textarea wrap='hard' onChange={event => setCustomMonths(event.target.value)} name='customMonthNames' value={customMonths} cols={20} rows={12}></textarea>
               </td>
             </tr>
           </tbody>
@@ -209,7 +217,7 @@ export default function CalendarOptions(props: {
         </div>
         <button className='text-purple-800 bg-white rounded-md shadow-lg py-2 px-3 hover:bg-purple-800 hover:text-white' onClick={viewCalendar}>show Calendar</button>
       </div>
-        }
+    }
       </div>
       </div>
       </div>
