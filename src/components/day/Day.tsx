@@ -1,4 +1,3 @@
-import { bilingualLanguages } from "../../utils/data.util"
 export default function Day(props: {
     day: number,
     secondaryLang: string,

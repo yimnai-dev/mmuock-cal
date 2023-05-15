@@ -1,16 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { bilingualLanguages, kalendaRegions, regions } from '../../utils/data.util';
-import { KalendaOptions, Region, SecondaryCalendar } from '../../utils/types.util';
+import { LANGUAGES, kalendaRegions, regions } from '../../utils/data.util';
+import { KalendaOptions, Region } from '../../utils/types.util';
 
 export default function CalendarOptions(props: {
     kalendaOptions: KalendaOptions,
     setKalendaOptions: React.Dispatch<React.SetStateAction<KalendaOptions>>,
 }){
-
-  const languages = [
-    'English', 'French', 'German', 'Custom'
-  ]
 
   const navigate = useNavigate();
 
@@ -22,11 +18,12 @@ export default function CalendarOptions(props: {
       props.setKalendaOptions((prev) => {
         return {
           ...prev,
-          customKalendar: {dayNames: customDays.split(" "), monthNames: customMonths.split(" ")}
+          customKalendar: {
+            dayNames: customDays.split(" ").filter(day => day.length > 0),
+            monthNames: customMonths.split(" ").filter(month => month.length > 0)}
         }
       })
     }
-    console.log('Custom Kalenda: ', props.kalendaOptions.customKalendar)
   }, [props.kalendaOptions.customLanguage, customDays, customMonths])
 
   function viewCalendar(){
@@ -34,30 +31,50 @@ export default function CalendarOptions(props: {
   }
 
   function onYearChange(event: any){
-    props.setKalendaOptions({
-      ...props.kalendaOptions,
+    props.setKalendaOptions((prevOpts) =>{
+    return {
+      ...prevOpts,
       year: parseInt(event.target.value)
+    }
     })
-
   }
 
   function displayOptions(){
-    props.setKalendaOptions({
-      ...props.kalendaOptions,
-      viewOptions: !props.kalendaOptions.viewOptions
+    props.setKalendaOptions((prevOpts) => {
+      return {
+        ...prevOpts,
+        viewOptions: !props.kalendaOptions.viewOptions
+      }
     })
   }
   function setCustomLang(){
-    props.setKalendaOptions({
-      ...props.kalendaOptions,
-      customLanguage: !props.kalendaOptions.customLanguage
+    props.setKalendaOptions((prevOpts) => {
+      return {
+        ...prevOpts,
+        customLanguage: !props.kalendaOptions.customLanguage
+      }
     })
   }
 
   function onLangChange(e: any){
-    props.setKalendaOptions({
-      ...props.kalendaOptions,
-      currentLang: e.target.value
+    props.setKalendaOptions((prevOpts) => {
+      return {
+        ...prevOpts,
+        currentLang: e.target.value
+      }
+    })
+  }
+
+  function onRegionChange(e: any){
+    const tempRegion = kalendaRegions.find(result => e.target.value.toLowerCase() === result.region.toLowerCase())
+    const tempViewOpts = e.target.value === 'Custom' ? true : false
+    props.setKalendaOptions((prevOpts) => {
+      return {
+        ...prevOpts,
+        region: e.target.value,
+        activeCulture: tempRegion as Region,
+        viewOptions: tempViewOpts
+      }
     })
   }
 
@@ -70,16 +87,7 @@ export default function CalendarOptions(props: {
         </div>
         <div className='w-full space-x-3 space-y-3 py-3'>
           <select className='inline-block border-2 border-solid border-purple-800 px-2 h-10 rounded-md outline-none hover:outline-none' onChange={event => {
-            props.setKalendaOptions({
-              ...props.kalendaOptions,
-              region: event.target.value,
-            })
-            const region = kalendaRegions.find(result => event.target.value.toLowerCase() === result.region.toLowerCase())
-            props.setKalendaOptions({
-              ...props.kalendaOptions,
-              activeCulture: region as Region,
-            })
-            event.target.value === 'Custom' ? props.setKalendaOptions({ ...props.kalendaOptions, viewOptions: true }) : props.setKalendaOptions({ ...props.kalendaOptions, viewOptions: false })
+            onRegionChange(event)
           }}>
             {regions.map(region => (
               <option key={region} value={region}>{region}</option>
@@ -110,14 +118,14 @@ export default function CalendarOptions(props: {
             props.kalendaOptions.isBilingual &&
             <span className='inline-block'>
             <select onChange={onLangChange}>
-                {languages.map(language => (
+                {LANGUAGES.map(language => (
                   <option key={language} value={language}>{language}</option>
                 ))}
             </select>
           </span>
           }
           <span className='inline-block'>
-            <input type="checkbox" id='swap' onChange={event => {
+            <input type="checkbox" disabled={!props.kalendaOptions.isBilingual} id='swap' onChange={event => {
               props.setKalendaOptions({
                 ...props.kalendaOptions,
                 swap: event.target.checked

@@ -2,6 +2,10 @@
 
 import { Region } from "./types.util"
 
+export const LANGUAGES = [
+  'English', 'French', 'German', 'Custom'
+]
+
 export const MONTH_SHORTS = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
 ]

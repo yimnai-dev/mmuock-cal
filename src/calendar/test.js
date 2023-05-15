@@ -84,6 +84,7 @@ try{
         - Kalenda.DAYNAMES.mmockmbie
         - Kalenda.DAYNAMES.bangwa
         - Kalenda.DAYNAMES.nkwen
+  console.table(secondaryDayNames, secondaryDayNames)
         - Kalenda.DAYNAMES.en
         - Kalenda.DAYNAMES.fr
         - Kalenda.DAYNAMES.de

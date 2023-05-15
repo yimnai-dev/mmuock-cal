@@ -8,6 +8,8 @@ export type Region = {
 export type SecondaryCalendar = {
     dayNames: string[];
     monthNames: string[];
+    calOrigin?: any;
+    region?: string;
 }
 
 export type KalendaOptions = {

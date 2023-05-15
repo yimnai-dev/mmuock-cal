@@ -22,8 +22,6 @@ export default function Year(props: {
                         <Month key={month + Math.random()}
                           monthName={month}
                           monthIndex={index} 
-                          //@ts-ignore
-                          calendar={new Kalenda(props.kalendaOptions.activeCulture.calOrigin || Kalenda.WESTERN).cal(months.length === 0 ? MONTH_NAMES.indexOf(month) + 1 : months.indexOf(month) + 1, props.kalendaOptions.year, true)}
                           weekDays={props.kalendaOptions.activeCulture.weekDays}
                           kalendaOptions={props.kalendaOptions}
                           setKalendaOptions={props.setKalendaOptions}
